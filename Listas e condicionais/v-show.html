@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <button @click="mostrar = !mostrar">Toggle</button>
+        <p v-show="mostrar">Diretiva v-show "{{ mostrar }}": {{texto}}</p>
+        <p v-if="mostrar">Diretiva v-if "{{ mostrar }}": {{texto}}</p>
+        <input v-model="texto">
+        <!-- v-show altera a propriedade display do CSS, v-if remove ou recoloca o elemento no DOM -->
+        <!-- v-show para alternância frequente de visibilidade, v-if para pouca alternância -->
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                mostrar: true,
+                texto: 'Hello world'
+            }
+        })
+    </script>
+</body>
+
+</html>

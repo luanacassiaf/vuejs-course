@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Curso: {{curso}}</p>
+        <p>Inverso: {{cursoInvertidoComputed}}</p>
+        <p>Inverso: {{cursoInvertidoMethod()}}</p>
+
+        <input @keyup.enter="alterarCurso">
+        <br>
+        <p>Status: {{concluido ? 'Concluído' : 'Em andamento'}}</p>
+        <button @click="concluido = !concluido">Alterar status</button>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                curso: 'Curso Vue.js',
+                concluido: 'false'
+            },
+            computed: {
+                // Trabalha com cache das dependências
+                // Só é reexecutada novamente quando a dependência é alterada
+                cursoInvertidoComputed: function () {
+                    console.log('Computed property')
+                    return this.curso.split('').reverse().join('')
+                }
+            },
+            methods: {
+                alterarCurso: function (event) {
+                    this.curso = event.target.value
+                },
+                // Chamado em cada nova renderização
+                cursoInvertidoMethod: function () {
+                    console.log('Method')
+                    return this.curso.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

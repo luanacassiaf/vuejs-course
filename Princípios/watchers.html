@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Pokémom: {{pokemon}}</p>
+        <button @click="alterarPokemon">Alterar pokémon</button>
+        <br>
+        <p>Nome: {{nomeCompleto}}</p>
+        <button @click="alterarNomes">Alterar nomes</button>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                pokemon: 'Charmander',
+                primeiroNome: 'Luana',
+                ultimoNome: 'Freitas',
+                // nomeCompleto: 'Luana Freitas'
+            },
+            // Watcher: para operações assíncronas ou sem necessidade de return
+            watch: {
+                pokemon: function (novoPokemon, antigoPokemon) {
+                    var vm = this
+                    setTimeout(function () {
+                        vm.pokemon = 'Pikachu'
+                    }, 3000)
+                },
+                // primeiroNome: function(novoPrimeiroNome, antigoPrimeiroNome) {
+                //     this.nomeCompleto = novoPrimeiroNome + ' ' + this.ultimoNome
+                // },
+                // ultimoNome: function(novoUltimoNome, antigoUltimoNome) {
+                //     this.nomeCompleto = this.primeiroNome + ' ' + novoUltimoNome
+                // }
+            },
+            computed: {
+                nomeCompleto: function () {
+                    return this.primeiroNome + ' ' + this.ultimoNome
+                }
+            },
+            methods: {
+                alterarNomes: function (event) {
+                    this.primeiroNome = 'Freitas'
+                    this.ultimoNome = 'Luana'
+                },
+                alterarPokemon: function (event) {
+                    this.pokemon = 'Squirtle'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h2>Instância Vue</h2>
+        <button @click="mostrar = !mostrar">Toggle</button>
+        <p v-if="mostrar">{{titulo}}</p>
+    </div>
+
+    <script type="text/javascript">
+
+        var data = {
+            titulo: 'Curso Vue.js',
+            mostrar: true
+        }
+        var vm = new Vue({
+            el: '#app',
+            data
+        })
+
+        console.log(vm)
+        console.log(vm.$el == document.getElementById('app'))
+        console.log(vm.$data === data)
+
+        setTimeout(function() {
+            data.titulo = 'new'
+        }, 3000)
+    </script>
+</body>
+
+</html>

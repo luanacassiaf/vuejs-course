@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Course</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>{{mensagem}}</p>
+
+        <p>Digite seu nome: <input v-on:input="mudarNome"></p>
+        <p>Olá {{nome}}</p>
+
+        <p v-once>Ano de {{ ano }}</p>
+        <p>Ano de {{ getAno() }}</p>
+
+        <p v-text="frase"></p>
+        <!-- v-bind:href="pikachu" -->
+        <a :href="pikachu">Pikachu</a>
+
+        <!-- v-on:click="onClick" -->
+        <button @click="onClick">Click</button>
+
+        <p v-html="codigo"></p>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                mensagem: 'Hello World',
+                nome: '',
+                ano: 2023,
+                frase: 'Quem é esse pokémon?',
+                pikachu: 'https://www.pokemon.com/br/pokedex/pikachu',
+                codigo: '<span style= "color: red">POKÉMON</span>'
+            },
+            methods: {
+                mudarNome: function (event) {
+                    this.nome = event.target.value
+                },
+                getAno: function () {
+                    this.ano = 1996
+                    return this.ano
+                },
+                onClick: function (event) {
+                    console.log(event.type)
+                },
+            }
+        })
+    </script>
+</body>
+
+</html>

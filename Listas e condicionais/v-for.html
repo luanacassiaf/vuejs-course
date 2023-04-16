@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Pokémons Lendários</h1>
+        <h3>Os Três Pássaros Lendários</h3>
+        <ul>
+            <li v-for="(bird, index) in birds">{{index+1}}. {{bird}}</li>
+        </ul>
+        <h3>As Três Bestas Lendárias</h3>
+        <ul>
+            <li v-for="beast of beasts">{{beast}} - {{max_level}}</li>
+        </ul>
+
+        <hr>
+        <ul>
+            <li v-for="(value, key, index) in pokemon">[{{index}}] {{key}}: {{value}}</li>
+        </ul>
+
+        <hr>
+        <ul>
+            <li v-for="(value, index) in 10">[{{index}}] {{value}}</li>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                max_level: 'lv 100',
+                birds: [
+                    'Articuno',
+                    'Zapdos',
+                    'Moltres'
+                ],
+                beasts: [
+                    'Raikou',
+                    'Entei',
+                    'Suicune'
+                ],
+                pokemon: {
+                    name: 'Pikachu',
+                    level: 20,
+                    trainer: 'Ash Ketchum',
+                    evolution: 'Raichu'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

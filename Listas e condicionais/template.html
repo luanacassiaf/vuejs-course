@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+    <style>
+        .separador {
+            list-style-type: none;
+            border-bottom: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <p>Pokémons:</p>
+        <ul>
+            <template v-for="pokemon in pokemons">
+                <li>{{pokemon.name}}</li>
+                <li class="separador"></li>
+            </template>
+        </ul>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                pokemons: [
+                    {id: 1, name: 'Squirtle'},
+                    {id: 2, name: 'Charmander'},
+                    {id: 3, name: 'Bulbasaur'}
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>

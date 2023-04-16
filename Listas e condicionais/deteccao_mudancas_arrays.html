@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Pokémons:</h1>
+        <ul>
+            <li v-for="pokemon in pokemons" :key="pokemon.id">{{pokemon.name}}</li>
+        </ul>
+        <button @click="adicionarPokemon">Adicionar pokémon</button>
+        <button @click="pokemons = pokemons.slice(0, 4)">Substituir array</button>
+        <button @click="substituirPokemon">Substituir pokémon</button>
+        <button @click="cortarArray">Cortar array</button>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                pokemons: [
+                    {id: 1, name: 'Squirtle'},
+                    {id: 2, name: 'Charmander'},
+                    {id: 3, name: 'Bulbasaur'}
+                ]
+            },
+            methods: {
+                adicionarPokemon: function(event) {
+                    var id = this.pokemons.length + 1
+                    this.pokemons.push({id: id, name: 'Pokémon ' + id})
+                },
+                substituirPokemon: function(event) {
+                    var tamanho = this.pokemons.length
+                    var indice = Math.round(tamanho / 2)
+                    var novoPokemon = {id: tamanho + 1, name: 'Pokémon ' + (tamanho + 1)}
+
+                    // Não reativo
+                    // this.pokemons[indice] = novoPokemon
+
+                    // Reativos
+                    // Vue.set(this.pokemons, indice, novoPokemon)
+                    // this.$set(this.pokemons, indice, novoPokemon)
+                    this.pokemons.splice(indice, 1, novoPokemon)
+                },
+                cortarArray: function(event) {
+                    // Não reativo
+                    // this.pokemons.length = 2
+
+                    // Reativo
+                    this.pokemons.splice(2)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

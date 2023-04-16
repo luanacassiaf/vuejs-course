@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <p>Objetos:</p>
+        <ul>
+            <li v-for="(valor, chave) in pikachu">{{chave}}: {{valor}}</li>
+        </ul>
+        <button @click="adicionarPropriedade">Adicionar propriedade</button>
+        <button @click="substituirObjeto">Substituir objeto</button>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                pikachu: {
+                    name: 'Pikachu',
+                    level: 20,
+                    evolution: 'Raichu'
+                },
+                pokemon: {
+                    nome: '',
+                    level: 0,
+                    evolution: ''
+                }
+            },
+            methods: {
+                adicionarPropriedade: function(event) {
+                    // Não reativos
+                    // this.pokemon = {name: 'Squirtle', level: 19, evolution: 'Wartodle'}
+                    // this.pikachu.trainer = 'Ash Ketchum'
+
+                    // Reativos
+                    // Vue.set(this.pikachu, 'trainer', 'Ash Ketchum')
+                    this.$set(this.pikachu, 'trainer', 'Ash Ketchum')
+                },
+                substituirObjeto: function(event) {
+                    // Não reativo
+                    // Object.assign(this.pikachu, {'trainer': 'Ash Ketchum'})
+
+                    // Reativo
+                    this.pikachu = Object.assign({}, this.pikachu, {'trainer': 'Ash Ketchum'})
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Vue.js</title>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Tarefas:</h1>
+        <ul>
+            <li v-for="tarefa in tarefas" :key="tarefa.id" v-if="!tarefa.completa">{{tarefa.titulo}}</li>
+        </ul>
+
+        <hr>
+        <h1>Tarefas:</h1>
+        <ul v-if="tarefasIncompletas.length">
+            <li v-for="tarefa in tarefasIncompletas" :key="tarefa.id">{{tarefa.titulo}}</li>
+        </ul>
+        <p v-else>Nenhuma tarefa pendente.</p>
+    </div>
+
+    <script type="text/javascript">
+        new Vue({
+            el: '#app',
+            data: {
+                tarefas: [
+                    {id: 1, titulo: 'Task 1', completa: true},
+                    {id: 2, titulo: 'Task 2', completa: false},
+                    {id: 3, titulo: 'Task 3', completa: false},
+                    {id: 4, titulo: 'Task 4', completa: false}
+                ]
+            },
+            computed: {
+                tarefasIncompletas: function() {
+                    return this.tarefas.filter(function(tarefa) {
+                        return !tarefa.completa
+                    })
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
