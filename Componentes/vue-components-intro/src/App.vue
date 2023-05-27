@@ -2,18 +2,22 @@
     <div>
         <!-- <app-header></app-header> -->
         <AppHeader/>
-        <app-contador/>
+        <ContadorInfo/>
+        <Contador/>
     </div>
 </template>
 
 <script>
-import AppContador from './AppContador.vue'
-import AppHeader from './AppHeader.vue'
+import AppHeader from './components/shared/AppHeader.vue'
+import Contador from './components/contador/Contador.vue'
+import ContadorInfo from './components/contador/ContadorInfo.vue'
 
 export default {
     components: {
-        'app-contador': AppContador,
-        AppHeader
+        // 'contador': Contador,
+        AppHeader,
+        Contador,
+        ContadorInfo
     }
 }
 </script>
