@@ -6,12 +6,18 @@
       <ul class="list-group list-group-flush">
         <!-- <FilmesListaIten titulo="Pokémon"/> -->
 
-        <FilmesListaIten
+        <!-- <FilmesListaIten
           v-for="filme in filmes"
           :key="filme.id"
           :titulo="filme.titulo"
           :ano="filme.ano"
           v-bind="filme"
+        /> -->
+
+        <FilmesListaIten
+          v-for="filme in filmes"
+          :key="filme.id"
+          :filme="filme"
         />
       </ul>
     </div>

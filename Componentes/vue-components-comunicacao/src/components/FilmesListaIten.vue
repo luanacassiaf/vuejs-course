@@ -1,9 +1,14 @@
 <template>
     <div>
-        <li class="list-group-item">
+        <!-- <li class="list-group-item">
             <span>{{ tituloConcatenado }} | {{ ano }}</span>
             <br>
             <input :value="$attrs.avaliacao">
+            <button class="btn btn-success" style="float: right">Editar</button>
+        </li> -->
+
+        <li class="list-group-item">
+            <span>{{ filme.titulo }} | {{ filme.ano }}</span>
             <button class="btn btn-success" style="float: right">Editar</button>
         </li>
     </div>
@@ -13,23 +18,27 @@
 <script>
 export default {
     // props: ['titulo'] -- não tipado
-
     props: {
         // Atributos non-prop são adicionados por padrão ao elemento root do component
         inheritAttrs: false,
 
-        titulo: {
-            type: String,
-            required: true,
-            // default: 'Untitled',
-            // validator(str) {
-            //     return str.includes('Pikachu')
-            // }
-        },
-        ano: {
-            type: Number,
-            required: true,
-        },
+        // titulo: {
+        //     type: String,
+        //     required: true,
+        //     default: 'Untitled',
+        //     validator(str) {
+        //         return str.includes('Pikachu')
+        //     }
+        // },
+        // ano: {
+        //     type: Number,
+        //     required: true,
+        // },
+
+        filme: {
+            type: Object,
+            required: true
+        }
     },
     computed: {
         tituloConcatenado() {
@@ -37,7 +46,7 @@ export default {
         },
     },
     created() {
-        console.log('Attrs: ', this.$attrs);
+        //console.log('Attrs: ', this.$attrs);
     },
 };
 </script>
