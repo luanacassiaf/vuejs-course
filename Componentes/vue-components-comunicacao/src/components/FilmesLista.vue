@@ -5,6 +5,7 @@
       <h2>Filmes</h2>
       <ul class="list-group list-group-flush">
         <!-- <FilmesListaIten titulo="Pokémon"/> -->
+
         <FilmesListaIten
           v-for="filme in filmes"
           :key="filme.id"
@@ -34,9 +35,9 @@ export default {
   data() {
     return {
       filmes: [
-        { id: 1, titulo: "Procurando Nemo", ano: 2003 },
-        { id: 2, titulo: "Minions", ano: 2015 },
-        { id: 3, titulo: "Pokémon", ano: 1999 },
+        { id: 1, titulo: "Procurando Nemo", ano: 2003, avaliacao: 8 },
+        { id: 2, titulo: "Minions", ano: 2015, avaliacao: 8.5 },
+        { id: 3, titulo: "Pokémon", ano: 1999, avaliacao: 7 },
       ],
     };
   },
