@@ -4,27 +4,20 @@
     <div class="col-8">
       <h2>Filmes</h2>
       <ul class="list-group list-group-flush">
-        <!-- <FilmesListaIten titulo="Pokémon"/> -->
-
-        <!-- <FilmesListaIten
-          v-for="filme in filmes"
-          :key="filme.id"
-          :titulo="filme.titulo"
-          :ano="filme.ano"
-          v-bind="filme"
-        /> -->
 
         <FilmesListaIten
           v-for="filme in filmes"
           :key="filme.id"
           :filme="filme"
+          :class="aplicarClasseAtiva(filme)"
+          @selecionarFilme="filmeSelecionado = $event"
         />
       </ul>
     </div>
 
     <!-- coluna 2 -->
     <div class="col-4">
-      <FilmesListaItenInfo />
+      <FilmesListaItenInfo :filme="filmeSelecionado"/>
     </div>
   </div>
 </template>
@@ -45,7 +38,15 @@ export default {
         { id: 2, titulo: "Minions", ano: 2015, avaliacao: 8.5 },
         { id: 3, titulo: "Pokémon", ano: 1999, avaliacao: 7 },
       ],
+      filmeSelecionado: undefined
     };
   },
+  methods: {
+    aplicarClasseAtiva(filmeIterado) {
+      return {
+        active: this.filmeSelecionado && this.filmeSelecionado.id == filmeIterado.id
+      }
+    }
+  }
 };
 </script>
