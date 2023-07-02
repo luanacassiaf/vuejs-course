@@ -22,8 +22,8 @@
                 :value="filmeSelecionado.ano"
                 @input="filmeSelecionado = {propriedade: 'ano', valor: $event.target.value}">
         </div>
-        
-        <button @click="salvarFilme" class="btn btn-primary float-right">Salvar</button>
+        <br>
+        <button @click="salvarFilme" class="btn btn-primary">Salvar</button>
     </div>
 </template>
 
@@ -56,6 +56,11 @@ export default{
             get() {
                 return this.filme
             }
+        }
+    },
+    watch: {
+        filme(novoFilme) {
+            this.filmeLocal = Object.assign({}, novoFilme)
         }
     },
     methods: {
