@@ -6,10 +6,19 @@
     <button @click="componentSelecionado = 'PostsLista'">Posts</button>
     <button @click="componentSelecionado = 'Sobre'">Sobre</button>
 
-  <component 
-    :is="componentSelecionado"
-    v-bind="propsAtuais"
-  ></component>
+  <!-- Componentes dinâmicos ao serem alternados, por padrão, criam uma nova instância -->
+  <!-- keep-alive mantêm a mesma instância após sua criação -->
+  <keep-alive 
+    exclude="PostsLista" 
+    :include="/Home|Sobre/"
+    max="1">
+
+    <component 
+      :is="componentSelecionado"
+      v-bind="propsAtuais"
+    ></component>
+    
+  </keep-alive>
 
   <!-- 
     <posts-lista :posts="posts"/>
