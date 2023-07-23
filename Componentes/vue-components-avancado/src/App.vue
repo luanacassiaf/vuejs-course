@@ -1,28 +1,71 @@
 <template>
   <div id="app" class="container">
-    <h1>Vue JS</h1>
+    <h1>Componentes Dinâmicos</h1>
 
-    <Post titulo="Passagem de dados via props">
-      <h2 slot="cabecalho">Lorem ipsum</h2>
-      <template slot="conteudo">
-        <p>Mussum Ipsum, cacilds vidis litro abertis.</p>
-        <p>Todo mundo vê os porris que eu tomo, mas ninguém vê os tombis que eu levo!</p>
+    <button @click="componentSelecionado = 'Home'">Home</button>
+    <button @click="componentSelecionado = 'PostsLista'">Posts</button>
+    <button @click="componentSelecionado = 'Sobre'">Sobre</button>
+
+  <component 
+    :is="componentSelecionado"
+    v-bind="propsAtuais"
+  ></component>
+
+  <!-- 
+    <posts-lista :posts="posts"/>
+    <hr>
+
+    <h1>Slots com escopo</h1>
+
+    <posts-lista :posts="posts">
+      <template v-slot="{myPost}">
+        <h2>{{myPost.titulo}}</h2>
+        <p>{{myPost.conteudo}}</p>
+        <small>{{myPost.autor}}</small>
       </template>
-      <small slot="rodape">by Mussum</small>
-    </Post>
+    </posts-lista> 
+  -->
 
     </div>
 </template>
 
 <script>
 
-import Post from './components/Post.vue'
+import PostsLista from './components/PostsLista.vue'
+import Home from './components/Home.vue'
+import Sobre from './components/Sobre.vue'
 
 export default {
   components: {
-    Post
+    PostsLista,
+    Home,
+    Sobre
   },
-}
+  data() {
+    return {
+      componentSelecionado: 'Home',
+      posts: [
+          {
+            id: 1, 
+            titulo: 'Mussum Ipsum', 
+            conteudo: 'Mussum Ipsum, cacilds vidis litro abertis. Atirei o pau no gatis, per gatis num morreus.',
+            autor: 'Mussum'
+          },
+          {
+            id: 2, 
+            titulo: 'Lorem Ipsum', 
+            conteudo: 'Lorem ipsum dolor sit amet. Quo autem fugiat eos illo quis nam quia incidunt et voluptate minima qui voluptas earum.',
+            autor: 'Lorem'
+          }
+        ]
+      }
+    },
+    computed: {
+      propsAtuais() {
+        return this.componentSelecionado == 'PostsLista' ? {posts: this.posts} : {}
+      }
+    }
+  }
 </script>
 
 <style scoped>
