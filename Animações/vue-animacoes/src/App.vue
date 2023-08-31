@@ -11,10 +11,21 @@
     <div class="container">
       <button class="btn btn-primary mb-3" @click="mostrar = !mostrar">Alternar</button>
 
-      <transition name="slide">
+      <transition name="slide" type="animation" :duration="{ enter: 1200, leave: 1000 }">
         <div class="alert alert-primary" v-if="mostrar">Animações no Vue</div>
       </transition>
 
+      <transition
+        enter-class=""
+        enter-active-class="animate__animated animate__bounceInLeft"
+        enter-to-class=""
+
+        leave-class=""
+        leave-active-class="animate__animated animate__bounceOutDown"
+        leave-to-class=""
+        >
+        <div class="alert alert-primary" v-if="mostrar">Animate.css</div>
+      </transition>
     </div>
   </div>
 </template>
@@ -29,6 +40,12 @@ export default {
 }
 </script>
 
+<style>
+  body {
+    overflow: hidden;
+  }
+</style>
+
 <style scoped>
 
   .slide-enter, .slide-leave-to {
@@ -36,13 +53,13 @@ export default {
   }
 
   .slide-enter-active{
-    animation: slide 0.7s;
-    transition: opacity 0.7s;
+    animation: slide 0.7s cubic-bezier(.17,.67,1,.28);
+    transition: opacity 0.7s cubic-bezier(.17,.67,1,.28);
   }
 
   .slide-leave-active {
     animation: slide 0.7s reverse;
-    transition: opacity 0.7s;
+    transition: opacity 0.9s; /* com padrão animation, a opacidade não será concluída */
   }
 
   @keyframes slide {
