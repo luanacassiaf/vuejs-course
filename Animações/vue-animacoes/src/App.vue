@@ -16,6 +16,11 @@
       </transition>
 
       <transition
+        appear
+        appear-class=""
+        appear-active-class="animate__animated animate__flipInY"
+        appear-to-class=""
+
         enter-class=""
         enter-active-class="animate__animated animate__bounceInLeft"
         enter-to-class=""
@@ -29,6 +34,10 @@
 
       <transition
         appear
+        @before-appear="beforeAppear"
+        @appear="appear"
+        @after-appear="afterAppear"
+        @appear-cancelled="appearCancelled"
         @before-enter="beforeEnter"
         @enter="enter"
         @after-enter="afterEnter"
@@ -53,6 +62,19 @@ export default {
     }
   },
   methods: {
+    beforeAppear(el) {
+      console.log('beforeAppear')
+    },
+    appear(el, done) {
+      console.log('appear')
+      setTimeout(done, 1000)
+    },
+    afterAppear(el) {
+      console.log('afterAppear')
+    },
+    appearCancelled(el) {
+      console.log('appearCanceled')
+    },
     beforeEnter(el) {
       console.log('beforeEnter')
       el.style.opacity = 0
