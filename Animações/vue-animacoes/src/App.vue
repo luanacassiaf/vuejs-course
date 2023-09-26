@@ -26,6 +26,7 @@
           <option value="AppAnimateCSS">Animate.css</option>
           <option value="AppHooks">JS Hooks</option>
           <option value="AppGroup">Transition Group</option>
+          <option value="AppEstados">Animação de Estados</option>
         </select>
       </div>
 
@@ -43,6 +44,7 @@ export default {
     AppAnimateCSS: () => import("./components/AnimateCSS.vue"),
     AppHooks: () => import("./components/JSHooks.vue"),
     AppGroup: () => import("./components/Group.vue"),
+    AppEstados: () => import("./components/Estados.vue"),
   },
   data() {
     return {
