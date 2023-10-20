@@ -1,16 +1,16 @@
 <template>
-<div>
-		<contatos-lista/>
-</div>
+  <div>
+    <contatos-lista />
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-
-import ContatosLista from '../../components/contatos/ContatosLista.vue'
+import ContatosLista from "../../components/contatos/ContatosLista.vue";
 
 export default {
-	components: {
-		ContatosLista
-	}
-}
+  components: {
+    ContatosLista,
+  },
+};
 </script>
