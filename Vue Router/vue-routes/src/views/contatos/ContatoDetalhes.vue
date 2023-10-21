@@ -9,22 +9,23 @@
 
 <script>
 export default {
-  data() {
-    return {
-      id: this.$route.params.id,
-    };
-  },
+  props: ['id'],
+  // data() {
+  //   return {
+  //     id: this.$route.params.id,
+  //   };
+  // },
   // watch: {
   // 	'$route'(to) {
   // 		this.id = to.params.id
   // 	}
   // },
-  beforeRouteUpdate(to, from, next) {
-    this.id = to.params.id;
-    next();
-  },
+  // beforeRouteUpdate(to, from, next) {
+  //   this.id = to.params.id;
+  //   next();
+  // },
   created() {
-    console.log("Parâmetros da rota: ", this.$route.params);
+    console.log("Parâmetros da rota: ", this.$props);
   },
 };
 </script>
