@@ -20,7 +20,7 @@ export default new VueRouter({
       component: Contatos,
       alias: ['/meus-contatos', '/contacts'],
       children: [
-        { path: ':id', component: ContatoDetalhes, name: 'contato', props: true },
+        { path: ':id', component: ContatoDetalhes, name: 'contato', props: { id: 'x' } },
         {
           path: ':id/editar', alias: ':id/alterar', components: {
             default: ContatoEditar,
