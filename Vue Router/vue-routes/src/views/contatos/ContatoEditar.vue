@@ -9,6 +9,9 @@
 
 <script>
 export default {
-  props: ['id']
-}
+  props: ["id"],
+  created() {
+    console.log(this.$route.params);
+  },
+};
 </script>
