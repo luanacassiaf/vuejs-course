@@ -24,7 +24,12 @@ export default new VueRouter({
         return busca ? { busca } : {}
       },
       children: [
-        { path: ':id', component: ContatoDetalhes, name: 'contato', props: true },
+        {
+          path: ':id',
+          component: ContatoDetalhes,
+          name: 'contato',
+          props: route => ({ id: +route.params.id })
+        },
         {
           path: ':id/editar', alias: ':id/alterar', components: {
             default: ContatoEditar,

@@ -3,8 +3,9 @@
     <span>{{ contato.nome }}</span>
 
     <router-link
-      :to="{ name: 'contato', params: { id: contato.id } }"
-      class="btn btn-info btn-sm float-right">
+      :to="{ path: `/contatos/${contato.id}` }"
+      class="btn btn-info btn-sm float-right"
+    >
       Detalhes
     </router-link>
 
@@ -27,8 +28,11 @@ export default {
       // this.$router.push(`/contatos/${this.contato.id}`)
       // this.$router.push({path: `/contatos/${this.contato.id}`})
       // this.$router.push({name: 'contato', params: {id: this.contato.id}})
-      this.$router.replace({name: 'contato', params: {id: this.contato.id}})
-    }
-  }
+      this.$router.replace({
+        name: "contato",
+        params: { id: this.contato.id },
+      });
+    },
+  },
 };
 </script>
