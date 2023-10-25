@@ -1,5 +1,8 @@
 # vue-routes
 
+## Navigation guards
+![alt text](https://github.com/luanacassiaf/vuejs-course/blob/main/Vue%20Router/vue-routes/guardas-de-rota.png)
+
 ## Project setup
 ```
 npm install
