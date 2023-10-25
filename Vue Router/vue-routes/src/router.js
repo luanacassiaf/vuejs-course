@@ -12,7 +12,7 @@ import Home from './views/Home.vue'
 Vue.use(VueRouter)
 const extractParamId = route => ({ id: +route.params.id })
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
   routes: [
@@ -35,6 +35,13 @@ export default new VueRouter({
           path: ':id(\\d+)/editar/:opcional?',
           // path: ':id(\\d+)/editar/:zeroOuMais*',
           // path: ':id(\\d+)/editar/:umOuMais+',
+          beforeEnter(to, from, next) {
+            console.log('beforeEnter')
+            if (to.query.autenticado === 'true') {
+              return next()
+            }
+            next('/contatos')
+          },
           alias: ':id(\\d+)/alterar',
           components: {
             default: ContatoEditar,
@@ -60,3 +67,14 @@ export default new VueRouter({
     { path: '*', component: Erro404 }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  console.log('beforeEach')
+  next()
+})
+
+router.afterEach((to, from) => {
+  console.log('afterEach')
+})
+
+export default router
