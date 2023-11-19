@@ -8,6 +8,8 @@ import ContatoEditar from './views/contatos/ContatoEditar.vue'
 import Erro404Contato from './views/contatos/Erro404Contato.vue'
 import Erro404 from './views/Erro404.vue'
 import Home from './views/Home.vue'
+import Login from './views/login/Login.vue'
+import EventBus from './event-bus'
 
 Vue.use(VueRouter)
 const extractParamId = route => ({ id: +route.params.id })
@@ -35,14 +37,17 @@ const router = new VueRouter({
           path: ':id(\\d+)/editar/:opcional?',
           // path: ':id(\\d+)/editar/:zeroOuMais*',
           // path: ':id(\\d+)/editar/:umOuMais+',
+          alias: ':id(\\d+)/alterar',
+          meta: { authRequired: true },
           beforeEnter(to, from, next) {
             console.log('beforeEnter')
-            if (to.query.autenticado === 'true') {
-              return next()
-            }
-            next('/contatos')
+            // next() ou next(true) - continuar
+            // next(false) - bloquear
+            // next('/contatos') ou next({name: 'contatos'}) - redirecionar
+            // next(new Error(`Permissões insuficientes para acessar o recurso ${to.fullPath}`));
+            // next() apenas em beforeRouteEnter permite acessar a instância vue
+            next()
           },
-          alias: ':id(\\d+)/alterar',
           components: {
             default: ContatoEditar,
             'contato-detalhes': ContatoDetalhes
@@ -58,6 +63,7 @@ const router = new VueRouter({
     },
     { path: '/home', component: Home },
     // { path: '/', redirect: {name: 'contatos'} }
+    { path: '/login', component: Login },
     {
       path: '/', redirect: () => {
         // return '/contatos',
@@ -70,11 +76,31 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   console.log('beforeEach')
+  console.log('Requer autenticação: ', to.meta.authRequired)
+  const authenticated = EventBus.autenticado
+  if (to.matched.some(rota => rota.meta.authRequired)) {
+    if (!authenticated) {
+      next({
+        path: '/login',
+        query: { redirecionar: to.fullPath }
+      })
+      return
+    }
+  }
+  next()
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log('beforeResolve')
   next()
 })
 
 router.afterEach((to, from) => {
   console.log('afterEach')
+})
+
+router.onError(err => {
+  console.log(err)
 })
 
 export default router

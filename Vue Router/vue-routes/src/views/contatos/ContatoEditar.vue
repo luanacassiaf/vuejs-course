@@ -10,8 +10,25 @@
 <script>
 export default {
   props: ["id"],
-  created() {
-    console.log(this.$route.params);
+  data() {
+    return {
+      curso: "Curso de VueJS",
+    };
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log("beforeRouteEnter");
+    // if (to.query.autenticado === "true") {
+    //   return next((vm) => {
+    //     console.log(vm.curso);
+    //   });
+    // }
+    // next("/contatos");
+    next();
+  },
+  beforeRouteLeave(to, from, next) {
+    console.log("beforeRouteLeave");
+    const confirmar = window.confirm("Deseja realmente sair?");
+    next(confirmar);
   },
 };
 </script>
