@@ -17,6 +17,22 @@ const extractParamId = route => ({ id: +route.params.id })
 const router = new VueRouter({
   mode: 'history',
   linkActiveClass: 'active',
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (savedPosition) {
+          return resolve(savedPosition)
+        }
+        if (to.hash) {
+          return resolve({
+            selector: to.hash,
+            offset: { x: 0, y: 0 }
+          })
+        }
+        resolve({ x: 0, y: 0 })
+      }, 1000)
+    })
+  },
   routes: [
     {
       path: '/contatos',
