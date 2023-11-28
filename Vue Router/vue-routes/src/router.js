@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import VueRouter from "vue-router";
 
-import Contatos from './views/contatos/Contatos.vue'
-import ContatoDetalhes from './views/contatos/ContatoDetalhes.vue'
-import ContatosHome from './views/contatos/ContatosHome.vue'
-import ContatoEditar from './views/contatos/ContatoEditar.vue'
 import Erro404Contato from './views/contatos/Erro404Contato.vue'
 import Erro404 from './views/Erro404.vue'
-import Home from './views/Home.vue'
 import Login from './views/login/Login.vue'
 import EventBus from './event-bus'
+
+// lazy loading
+const Home = () => import('./views/Home.vue')
+const Contatos = () => import(/* webpackChunkName: "contatos" */ './views/contatos/Contatos.vue')
+const ContatoDetalhes = () => import(/* webpackChunkName: "contatos" */ './views/contatos/ContatoDetalhes.vue')
+const ContatosHome = () => import(/* webpackChunkName: "contatos" */ './views/contatos/ContatosHome.vue')
+const ContatoEditar = () => import(/* webpackChunkName: "contatos" */ './views/contatos/ContatoEditar.vue')
 
 Vue.use(VueRouter)
 const extractParamId = route => ({ id: +route.params.id })

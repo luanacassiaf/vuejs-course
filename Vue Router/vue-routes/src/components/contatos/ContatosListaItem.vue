@@ -5,7 +5,6 @@
     <router-link
       :to="{
         path: `/contatos/${contato.id}`,
-        hash: '#params',
       }"
       class="btn btn-info btn-sm float-right"
     >

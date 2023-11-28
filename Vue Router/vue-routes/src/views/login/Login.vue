@@ -12,7 +12,7 @@
     />
     <label class="sr-only">Senha</label>
     <input
-      type="passoword"
+      type="password"
       class="form-control"
       placeholder="Senha"
       required

@@ -29,6 +29,8 @@
 
 <script>
 import ContatosListaItem from "./ContatosListaItem.vue";
+// @ -> src
+import EventBus from "@/event-bus";
 
 export default {
   components: {
@@ -37,11 +39,7 @@ export default {
   props: ["busca"],
   data() {
     return {
-      contatos: [
-        { id: 1, nome: "Goku", email: "goku@capsule.com" },
-        { id: 2, nome: "Gohan", email: "gohan@capsule.com" },
-        { id: 3, nome: "Goten", email: "goten@capsule.com" },
-      ],
+      contatos: [],
     };
   },
   computed: {
@@ -52,6 +50,9 @@ export default {
             contato.nome.toLowerCase().includes(this.busca.toLowerCase())
           );
     },
+  },
+  created() {
+    this.contatos = EventBus.contatos;
   },
   methods: {
     buscar(event) {
