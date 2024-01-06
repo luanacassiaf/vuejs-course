@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <ul class="list-group" v-if="tarefas.length > 0">
+        <ul class="list-group" v-if="tarefasOrdenadas.length > 0">
             <TarefasListaIten
                 v-for="tarefa in tarefasOrdenadas"
                 :key="tarefa.id"
@@ -23,7 +23,9 @@
                 @concluir="editarTarefa" />
         </ul>
 
-        <p v-else>Nenhuma tarefa criada.</p>
+        <p v-else-if="!mensagemErro">Nenhuma tarefa criada.</p>
+
+        <div class="alert alert-danger" v-else>{{mensagemErro}}</div>
 
         <TarefaSalvar 
             v-if="exibirForm" 
@@ -50,7 +52,8 @@ export default {
         return {
             tarefas: [],
             exibirForm: false,
-            tarefaSelecionada: undefined
+            tarefaSelecionada: undefined,
+            mensagemErro: undefined
         }
     },
     computed: {
@@ -69,6 +72,22 @@ export default {
         axios.get(`${config.apiURL}/tarefas`)
             .then((response) => {
                 this.tarefas = response.data
+                return 'Sucesso'
+            }, error => {
+                console.log(error)
+                return Promise.reject(error)
+            }).catch(error => {
+                console.log(error)
+                if(error.response) {
+                    this.mensagemErro = `Servidor retornou erro: ${error.message} ${error.response.statusText}`
+                } else if (error.request) {
+                    this.mensagemErro = `Erro ao tentar comunicar com o servidor: ${error.message}`
+                } else {
+                    this.mensagemErro = `Erro ao fazer requisição ao servidor: ${error.message}`
+                }
+                return 'Erro'
+            }).then((param) => {
+                console.log(param)
             })
     },
     methods: {
