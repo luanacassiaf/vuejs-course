@@ -6,7 +6,7 @@
             </div>
             <div class="col-sm-2">
                 <button class="btn btn-primary float-right"
-                    @click="exibirForm = !exibirForm">
+                    @click="exibirFormularioSalvarTarefa">
                     <i class="fa fa-plus mr-2"></i>
                     <span>Criar</span>
                 </button>
@@ -15,14 +15,21 @@
 
         <ul class="list-group" v-if="tarefas.length > 0">
             <TarefasListaIten
-                v-for="tarefa in tarefas"
+                v-for="tarefa in tarefasOrdenadas"
                 :key="tarefa.id"
-                :tarefa="tarefa" />
+                :tarefa="tarefa"
+                @editar="selecionarTarefaParaEdicao" 
+                @deletar="deletarTarefa" 
+                @concluir="editarTarefa" />
         </ul>
 
         <p v-else>Nenhuma tarefa criada.</p>
 
-        <TarefaSalvar v-if="exibirForm" @criar="criarTarefa"/>
+        <TarefaSalvar 
+            v-if="exibirForm" 
+            :tarefa="tarefaSelecionada" 
+            @criar="criarTarefa" 
+            @editar="editarTarefa" />
 
     </div>
 </template>
@@ -42,7 +49,20 @@ export default {
     data() {
         return {
             tarefas: [],
-            exibirForm: false
+            exibirForm: false,
+            tarefaSelecionada: undefined
+        }
+    },
+    computed: {
+        tarefasOrdenadas() {
+            return this.tarefas.slice().sort((t1, t2) => {
+                if(t1.concluido === t2.concluido) {
+                    return t1.titulo < t2.titulo ? 
+                    -1 
+                    : t1.titulo > t2.titulo ? 1 : 0
+                }
+                return t1.concluido - t2.concluido
+            })
         }
     },
     created() {
@@ -53,11 +73,58 @@ export default {
     },
     methods: {
         criarTarefa(tarefa) {
-            axios.post(`${config.apiURL}/tarefas`, tarefa)
-            .then(response => {
+            // axios.post(`${config.apiURL}/tarefas`, tarefa)
+            // .then(response => {
+            //     this.tarefas.push(response.data)
+            //     this.exibirForm = false
+            //     this.resetar()
+            // })
+            
+            axios.request({
+                method: 'post',
+                baseURL: config.apiURL,
+                url: '/tarefas',
+                data: tarefa
+            }).then(response => {
                 this.tarefas.push(response.data)
                 this.exibirForm = false
+                this.resetar()
             })
+        },
+        editarTarefa(tarefa) {
+            axios.put(`${config.apiURL}/tarefas/${tarefa.id}`, tarefa)
+                .then(response => {
+                    console.log(response)
+                    const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
+                    this.tarefas.splice(indice, 1, tarefa)
+                    this.resetar()
+                })
+        },
+        deletarTarefa(tarefa) {
+            const confirmar = window.confirm(`Deseja deletar a tarefa "${tarefa.titulo}"?`)
+            if (confirmar) {
+                axios.delete(`${config.apiURL}/tarefas/${tarefa.id}`)
+                    .then(response => {
+                        console.log(response)
+                        const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
+                        this.tarefas.splice(indice, 1)
+                    })
+            }
+        },
+        selecionarTarefaParaEdicao(tarefa) {
+            this.tarefaSelecionada = tarefa
+            this.exibirForm = true
+        },
+        exibirFormularioSalvarTarefa() {
+            if(this.tarefaSelecionada) {
+                this.tarefaSelecionada = undefined
+                return
+            }
+            this.exibirForm = !this.exibirForm
+        },
+        resetar() {
+            this.tarefaSelecionada = undefined
+            this.exibirForm = false
         }
     }
 }
