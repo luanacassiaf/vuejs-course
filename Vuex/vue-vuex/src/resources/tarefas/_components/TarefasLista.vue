@@ -50,6 +50,8 @@
 <script>
 
 import { createNamespacedHelpers } from 'vuex'
+
+import register from './../_store/register'
 import TarefaSalvar from './TarefaSalvar.vue'
 import TarefasListaIten from './TarefasListaIten.vue'
 
@@ -67,6 +69,7 @@ export default {
         }
     },
     created() {
+        register(this.$store)
         /*
         Acesso a mutations
         this.$store.commit({

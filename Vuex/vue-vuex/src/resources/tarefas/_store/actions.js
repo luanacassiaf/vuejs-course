@@ -1,3 +1,5 @@
+import * as types from './mutations-types'
+
 export default {
 	// Actions podem ser assíncronas
 	buscarTarefas: () => {
@@ -16,7 +18,7 @@ export default {
 		const tarefas = await dispatch('buscarTarefas')
 
 		// commit referencia a mutations
-		commit('listarTarefas', { tarefas })
+		commit(types.LISTAR_TAREFAS, { tarefas })
 
 		dispatch('logar', 'Dracarys', { root: true }) // logar
 		// dispatch('actionSemPayload', null, {root: true})

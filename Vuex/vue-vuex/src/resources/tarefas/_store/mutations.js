@@ -1,7 +1,27 @@
-// Apenas mutations devem causar mutações de estado
+import {
+	CRIAR_TAREFA,
+	EDITAR_TAREFA,
+	DELETAR_TAREFA,
+	LISTAR_TAREFAS
+} from './mutations-types'
+
+/*
+	Apenas mutations devem causar mutações de estado
+	Mutations devem ser síncronas, estados previsíveis
+*/
 export default {
-	// Mutations devem ser síncronas, estados previsíveis
-	listarTarefas: (state, { tarefas }) => {
+	[CRIAR_TAREFA]: (state, { tarefa }) => {
+		state.tarefas.push(tarefa)
+	},
+	[EDITAR_TAREFA]: (state, { tarefa }) => {
+		const indice = state.tarefas.findIndex(t => t.id == tarefa.id)
+		state.tarefas.splice(indice, 1, tarefa)
+	},
+	[DELETAR_TAREFA]: (state, { tarefa }) => {
+		const indice = state.tarefas.findIndex(t => t.id == tarefa.id)
+		state.tarefas.splice(indice, 1)
+	},
+	[LISTAR_TAREFAS]: (state, { tarefas }) => {
 		state.tarefas = tarefas
 	}
 }
