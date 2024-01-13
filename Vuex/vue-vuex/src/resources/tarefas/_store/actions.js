@@ -1,26 +1,41 @@
+import TarefasService from '../_services/TarefasService'
 import * as types from './mutations-types'
 
 export default {
 	// Actions podem ser assíncronas
-	buscarTarefas: () => {
-		return new Promise((resolve) => {
-			setTimeout(() => {
-				resolve([
-					{ id: 1, titulo: 'Aprender Vue', concluido: true },
-					{ id: 2, titulo: 'Aprender Vue Router', concluido: true },
-					{ id: 3, titulo: 'Aprender Vuex', concluido: false }
-				])
-			}, 2000)
-		})
+	concluirTarefa: async ({ dispatch }, payload) => {
+		const tarefa = Object.assign({}, payload.tarefa)
+		tarefa.concluido = !tarefa.concluido
+		dispatch('editarTarefa', { tarefa })
+	},
+	criarTarefa: ({ commit }, { tarefa }) => {
+		return TarefasService.postTarefa(tarefa)
+			.then(response => commit(types.CRIAR_TAREFA, { tarefa: response.data }))
+	},
+	editarTarefa: async ({ commit }, { tarefa }) => {
+		const response = await TarefasService.putTarefa(tarefa)
+		commit(types.EDITAR_TAREFA, { tarefa: response.data })
+	},
+	deletarTarefa: async ({ commit }, { tarefa }) => {
+		const response = await TarefasService.deleteTarefa(tarefa.id)
+		commit(types.DELETAR_TAREFA, { tarefa })
 	},
 	listarTarefas: async ({ commit, dispatch, state, rootState, getters, rootGetters }) => {
-		// dispatch referencia a actions
-		const tarefas = await dispatch('buscarTarefas')
-
-		// commit referencia a mutations
-		commit(types.LISTAR_TAREFAS, { tarefas })
-
-		dispatch('logar', 'Dracarys', { root: true }) // logar
-		// dispatch('actionSemPayload', null, {root: true})
+		const response = await TarefasService.getTarefas()
+		/*
+		dispatch referencia a actions
+		commit referencia a mutations
+		*/
+		commit(types.LISTAR_TAREFAS, { tarefas: response.data })
+		/*
+		dispatch('logar', 'Dracarys', { root: true })
+		dispatch('actionSemPayload', null, {root: true})
+		*/
+	},
+	selecionarTarefa: ({commit}, payload) => {
+		commit(types.SELECIONAR_TAREFA, payload)
+	},
+	resetarTarefaSelecionada: ({commit}) => {
+		commit(types.SELECIONAR_TAREFA, {tarefa: undefined})
 	}
 }

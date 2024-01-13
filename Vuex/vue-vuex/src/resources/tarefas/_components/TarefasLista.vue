@@ -22,7 +22,9 @@
                 v-for="tarefa in tarefasAFazer"
                 :key="tarefa.id"
                 :tarefa="tarefa"
-                @editar="selecionarTarefaParaEdicao" />
+                @editar="selecionarTarefaParaEdicao" 
+                @concluir="concluirTarefa({tarefa: $event})"
+                @deletar="confirmarRemocaoTarefa" />
         </ul>
 
         <p v-else>Nenhuma tarefa a fazer.</p>
@@ -34,16 +36,16 @@
                 v-for="tarefa in tarefasConcluidas"
                 :key="tarefa.id"
                 :tarefa="tarefa"
-                @editar="selecionarTarefaParaEdicao" />
+                @editar="selecionarTarefaParaEdicao"
+                @concluir="concluirTarefa({tarefa: $event})"
+                @deletar="confirmarRemocaoTarefa" />
         </ul>
 
         <p v-else>Nenhuma tarefa concluída.</p>
 
         <TarefaSalvar
             v-if="exibirFormulario"
-            :tarefa="tarefaSelecionada" />
-
-
+            @salvar="salvarTarefa"/>
     </div>
 </template>
 
@@ -64,8 +66,7 @@ export default {
     },
     data() {
         return {
-            exibirFormulario: false,
-            tarefaSelecionada: undefined,
+            exibirFormulario: false
         }
     },
     created() {
@@ -89,15 +90,27 @@ export default {
         setTimeout(async () => {
             console.log(this.boasVindas)
             await this.listarTarefas()
-            console.log(this.boasVindas)
         }, 1000)
     },
     computed: {
-        ...mapState(['tarefas']),
-        ...mapGetters(['tarefasAFazer', 'tarefasConcluidas', 'totalDeTarefasConcluidas', 'boasVindas'])
+        ...mapState(['tarefaSelecionada']),
+        ...mapGetters([
+            'tarefasAFazer', 
+            'tarefasConcluidas', 
+            'totalDeTarefasConcluidas', 
+            'boasVindas'
+        ])
     },
     methods: {
-        ...mapActions(['listarTarefas']),
+        ...mapActions([
+            'listarTarefas', 
+            'criarTarefa',
+            'editarTarefa',
+            'concluirTarefa', 
+            'deletarTarefa', 
+            'selecionarTarefa', 
+            'resetarTarefaSelecionada'
+        ]),
         /*
         ...mapMutations(['listarTarefas']),
         ...mapMutations({
@@ -107,20 +120,37 @@ export default {
             }
         }),
         */
+        confirmarRemocaoTarefa(tarefa) {
+            const confirmar = window.confirm(`Deseja deletar a tarefa "${tarefa.titulo}"?`)
+            if(confirmar) {
+                this.deletarTarefa({tarefa})
+            }
+        },
         exibirFormularioSalvarTarefa() {
             if (this.tarefaSelecionada) {
-                this.tarefaSelecionada = undefined
+                this.resetarTarefaSelecionada()
                 return
             }
             this.exibirFormulario = !this.exibirFormulario
         },
+        async salvarTarefa(event) {
+            console.log(event)
+            switch(event.operacao) {
+                case 'criar':
+                    await this.criarTarefa({tarefa: event.tarefa})
+                    break
+                case 'editar':
+                    await this.editarTarefa({tarefa: event.tarefa})
+            }
+            this.resetar()
+        },
         selecionarTarefaParaEdicao(tarefa) {
             this.exibirFormulario = true
-            this.tarefaSelecionada = tarefa
+            this.selecionarTarefa({tarefa})
         },
         resetar() {
             this.exibirFormulario = false
-            this.tarefaSelecionada = undefined
+            this.resetarTarefaSelecionada()
         }
     }
 }
