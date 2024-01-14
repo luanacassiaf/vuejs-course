@@ -11,31 +11,44 @@ export default {
 	criarTarefa: ({ commit }, { tarefa }) => {
 		return TarefasService.postTarefa(tarefa)
 			.then(response => commit(types.CRIAR_TAREFA, { tarefa: response.data }))
+			.catch(erro => commit(types.SETAR_ERRO, { erro }))
 	},
 	editarTarefa: async ({ commit }, { tarefa }) => {
-		const response = await TarefasService.putTarefa(tarefa)
-		commit(types.EDITAR_TAREFA, { tarefa: response.data })
+		try {
+			const response = await TarefasService.putTarefa(tarefa)
+			commit(types.EDITAR_TAREFA, { tarefa: response.data })
+		} catch (erro) {
+			commit(types.SETAR_ERRO, { erro })
+		}
+
 	},
 	deletarTarefa: async ({ commit }, { tarefa }) => {
-		const response = await TarefasService.deleteTarefa(tarefa.id)
-		commit(types.DELETAR_TAREFA, { tarefa })
+		try {
+			const response = await TarefasService.deleteTarefa(tarefa.id)
+			commit(types.DELETAR_TAREFA, { tarefa })
+		} catch (erro) {
+			commit(types.SETAR_ERRO, { erro })
+		}
 	},
 	listarTarefas: async ({ commit, dispatch, state, rootState, getters, rootGetters }) => {
-		const response = await TarefasService.getTarefas()
+		try {
+			const response = await TarefasService.getTarefas()
+			commit(types.LISTAR_TAREFAS, { tarefas: response.data })
+		} catch (erro) {
+			commit(types.SETAR_ERRO, { erro })
+		}
 		/*
 		dispatch referencia a actions
 		commit referencia a mutations
-		*/
-		commit(types.LISTAR_TAREFAS, { tarefas: response.data })
-		/*
+		
 		dispatch('logar', 'Dracarys', { root: true })
 		dispatch('actionSemPayload', null, {root: true})
 		*/
 	},
-	selecionarTarefa: ({commit}, payload) => {
+	selecionarTarefa: ({ commit }, payload) => {
 		commit(types.SELECIONAR_TAREFA, payload)
 	},
-	resetarTarefaSelecionada: ({commit}) => {
-		commit(types.SELECIONAR_TAREFA, {tarefa: undefined})
+	resetarTarefaSelecionada: ({ commit }) => {
+		commit(types.SELECIONAR_TAREFA, { tarefa: undefined })
 	}
 }

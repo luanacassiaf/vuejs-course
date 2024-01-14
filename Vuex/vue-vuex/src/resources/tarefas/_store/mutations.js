@@ -3,7 +3,8 @@ import {
 	EDITAR_TAREFA,
 	DELETAR_TAREFA,
 	LISTAR_TAREFAS,
-	SELECIONAR_TAREFA
+	SELECIONAR_TAREFA,
+	SETAR_ERRO
 } from './mutations-types'
 
 /*
@@ -25,7 +26,10 @@ export default {
 	[LISTAR_TAREFAS]: (state, { tarefas }) => {
 		state.tarefas = tarefas
 	},
-	['SELECIONAR_TAREFA']: (state, {tarefa}) => {
+	[SELECIONAR_TAREFA]: (state, { tarefa }) => {
 		state.tarefaSelecionada = tarefa
+	},
+	[SETAR_ERRO]: (state, { erro }) => {
+		state.erro = erro
 	}
 }

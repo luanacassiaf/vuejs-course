@@ -46,6 +46,8 @@
         <TarefaSalvar
             v-if="exibirFormulario"
             @salvar="salvarTarefa"/>
+
+        <div class="alert alert-danger" v-if="erro">{{erro.message}}</div>
     </div>
 </template>
 
@@ -93,7 +95,7 @@ export default {
         }, 1000)
     },
     computed: {
-        ...mapState(['tarefaSelecionada']),
+        ...mapState(['tarefaSelecionada', 'erro']),
         ...mapGetters([
             'tarefasAFazer', 
             'tarefasConcluidas', 
