@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   data() {
@@ -22,21 +22,22 @@ export default {
   },
   // computed: mapState(['contador']),
   computed: {
-    ...mapState('contador', {
-      contador: state => state.contador,
+    ...mapState("contador", {
+      contador: (state) => state.contador,
       // contador: "contador",
-      contadorAlias: state => state.contador,
+      contadorAlias: (state) => state.contador,
       contadorMultiplicado(state) {
         return state.contador * this.fator;
       },
     }),
   },
   methods: {
+    ...mapMutations("contador", ["decrementarContador", "incrementarContador"]),
     decrementar() {
-      this.$store.state.contador.contador--;
+      this.$store.commit("contador/decrementarContador");
     },
     incrementar() {
-      this.$store.state.contador.contador++;
+      this.$store.commit("contador/incrementarContador");
     },
   },
 };
